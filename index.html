@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loli</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            max-width: 300px;
+            width: 100%;
+            background-color: #2f00ff;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .chatbox {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc00;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #eaf5fe;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #f4f4f4;
+            align-self: flex-start;
+        }
+
+        .user-input {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            border: 1px solid #cccccc00;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .send-button {
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1 style="color: white; font-weight: 900;">Loli</h1>
+        <p style="color: antiquewhite;">Desarrollado por codevsite</p>
+        <div class="chatbox" id="chatbox"></div>
+        <div style="display: flex;">
+            <input type="text" class="user-input" id="userInput" onkeyup="getResponse(event)">
+            <button class="send-button" onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+    <script>
+        const chatbox = document.getElementById('chatbox');
+        const synth = window.speechSynthesis;
+
+        function getResponse(event) {
+            if (event.keyCode === 13) {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            document.getElementById('userInput').value = '';
+
+            const response = generateResponse(userInput);
+            appendMessage('user', userInput);
+            appendMessage('bot', response);
+
+            // Hablar la respuesta del bot
+            speak(response);
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            synth.speak(utterance);
+        }
+
+        function generateResponse(userInput) {
+            const lowerInput = userInput.toLowerCase();
+
+            if (lowerInput.includes('hola')) {
+                return '¡Hola! soy Loli, una Ai que te ayudara en Sumas, Restas y multiplicaciones.';
+            } else if (lowerInput.includes('adiós')) {
+                return '¡Hasta luego!';
+            } else if (lowerInput.includes('clima')) {
+                return 'El clima es soleado hoy.';
+            } else if (lowerInput.includes('nombre')) {
+                return 'Soy un chatbot. ¿Cómo te llamas?';
+            } else if (lowerInput.includes('llamo')) {
+                return '¡Encantado de conocerte!';
+            } else if (lowerInput.includes('gracias')) {
+                return '¡De nada!';
+            } else if (lowerInput.includes('tiempo')) {
+                return 'El tiempo es una magnitud física que se utiliza para medir la duración o separación de acontecimientos.';
+            } else if (lowerInput.includes('color')) {
+                return 'Mi color favorito es el azul.';
+            } else if (lowerInput.includes('deporte')) {
+                return 'Me gusta el fútbol.';
+            } else if (lowerInput.includes('película')) {
+                return 'Mi película favorita es Blade Runner.';
+            } else if (lowerInput.includes('musica')) {
+                return 'Disfruto de la música electrónica.';
+            } else if (lowerInput.includes('1+1')) {
+                return '2.';
+            } else if (lowerInput.includes('que es codevsite')) {
+                return '2.';
+            } else if (lowerInput.includes('+') || lowerInput.includes('-') || lowerInput.includes('*')) {
+                // Manejo de operaciones de suma, resta y multiplicación
+                try {
+                    const resultado = eval(lowerInput); // Utiliza la función eval para evaluar la expresión
+                    return resultado.toString();
+                } catch (error) {
+                    return 'Error al calcular la expresión.';
+                }
+            } else {
+                return 'Lo siento, no entiendo. ¿Puedes ser más específico?';
+            }
+        }
+
+        function appendMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatbox.appendChild(messageElement);
+
+            // Scroll al fondo del chatbox
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+
+
+
+
+
+
+
+
+
+        
+
+    </script>
+
+
+
+
+</body>
+</html>
